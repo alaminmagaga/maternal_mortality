@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: maternal_mortality
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn maternal_mortality.wsgi:application"
