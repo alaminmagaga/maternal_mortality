@@ -1,0 +1,73 @@
+<!-- myapp/templates/result.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Model Result</title>
+    <style>
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .low-risk {
+            color: #00cc00;  /* Green color for low risk */
+            border: 2px solid #00cc00;
+        }
+
+        .medium-risk {
+            color: #ffcc00;  /* Yellow color for medium risk */
+            border: 2px solid #ffcc00;
+        }
+
+        .high-risk {
+            color: #ff0000;  /* Red color for high risk */
+            border: 2px solid #ff0000;
+        }
+    </style>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">
+  <h3 class="w3-bar-item">Home</h3>
+  <a href="/" class="w3-bar-item w3-button">Home</a>
+  <a href="{% url 'chart' %}" class="w3-bar-item w3-button">Chart</a>
+  <a href="https://omdena.com/chapter-challenges/analyzing-maternal-health-in-nigeria-using-machine-learning/" class="w3-bar-item w3-button">About</a>
+  
+</div>
+
+<!-- Page Content -->
+<div style="margin-left:25%">
+
+  <div class="w3-container w3-teal w3-center">
+    <h1>Prediction Result</h1>
+  </div>
+ 
+    
+  
+        {% if prediction < 8.25 %}
+            <p class="low-risk">Low Risk Prediction: {{ prediction }} - This may indicate low maternal mortality risk</p>
+        {% elif prediction >= 8.25 and prediction < 21.84 %}
+            <p class="medium-risk">Medium Risk Prediction: {{ prediction }} - This may indicate moderate maternal mortality risk</p>
+        {% else %}
+            <p class="high-risk">High Risk Prediction: {{ prediction }}- This may indicate high maternal mortality risk.</p>
+        {% endif %}
+    
+</div>
+</body>
+
+</html>

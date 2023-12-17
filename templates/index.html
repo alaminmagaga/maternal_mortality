@@ -1,0 +1,171 @@
+<!-- myapp/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Model Prediction</title>
+   <style>
+
+
+    form {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f6f6f6;
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    input[type="submit"] {
+      background-color: teal;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid #007bff;
+    }
+  </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">
+  <h3 class="w3-bar-item">Home</h3>
+  <a href="/" class="w3-bar-item w3-button">Home</a>
+  <a href="{% url 'chart' %}" class="w3-bar-item w3-button">Chart</a>
+  <a href="https://omdena.com/chapter-challenges/analyzing-maternal-health-in-nigeria-using-machine-learning/" class="w3-bar-item w3-button">About</a>
+  
+</div>
+
+<!-- Page Content -->
+<div style="margin-left:25%">
+
+<div class="w3-container w3-teal">
+  <h1>My Page</h1>
+</div>
+
+<img src="https://guardian.ng/wp-content/uploads/2019/11/Healthcare-1.jpg" alt="Car" style="width:100%">
+
+<div class="w3-container">
+
+  <form action="{% url 'predict' %}" method="post" width="100%">
+    {% csrf_token %}
+    <label for="age">Respondent's Current Age:</label>
+    <input type="number" id="age" name="age" required>
+
+    <label for="education">Education in Single Years:</label>
+    <input type="number" id="education" name="education" required>
+
+    <label for="totalChildren">Total Children Ever Born:</label>
+    <input type="number" id="totalChildren" name="totalChildren" required>
+
+    <label for="smokesCigarettes">Smokes Cigarettes:</label>
+    <select id="smokesCigarettes" name="smokesCigarettes">
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+    
+    <label for="maritalStatus">Current Marital Status:</label>
+    <select id="maritalStatus" name="maritalStatus">
+      <option value="Current marital status_Living with partner">Living with Partner</option>
+      <option value="Current marital status_Married">Married</option>
+      <option value="Current marital status_Never in union">Never in Union</option>
+      <option value="Current marital status_No longer living together/separated">No Longer Living Together/Separated</option>
+      <option value="Current marital status_Widowed">Widowed</option>
+    </select>
+
+    <label for="livingArrangement">Currently Residing with Husband/Partner:</label>
+    <select id="livingArrangement" name="livingArrangement">
+      <option value="Currently residing with husband/partner_Not Available (single)">Not Available (single)</option>
+      <option value="Currently residing with husband/partner_Staying elsewhere">Staying Elsewhere</option>
+    </select>
+
+    <label for="stateOfResidence">State of Residence:</label>
+    <select id="stateOfResidence" name="stateOfResidence">
+      <option value="State of residence_Adamawa">Adamawa</option>
+      <option value="State of residence_Akwa Ibom">Akwa Ibom</option>
+      <option value="State of residence_Anambra">Anambra</option>
+      <option value="State of residence_Bauchi">Bauchi</option>
+      <option value="State of residence_Bayelsa">Bayelsa</option>
+      <option value="State of residence_Benue">Benue</option>
+      <option value="State of residence_Borno">Borno</option>
+      <option value="State of residence_Cross River">Cross River</option>
+      <option value="State of residence_Delta">Delta</option>
+      <option value="State of residence_Ebonyi">Ebonyi</option>
+      <option value="State of residence_Edo">Edo</option>
+      <option value="State of residence_Ekiti">Ekiti</option>
+      <option value="State of residence_Enugu">Enugu</option>
+      <option value="State of residence_FCT Abuja">FCT Abuja</option>
+      <option value="State of residence_Gombe">Gombe</option>
+      <option value="State of residence_Imo">Imo</option>
+      <option value="State of residence_Jigawa">Jigawa</option>
+      <option value="State of residence_Kaduna">Kaduna</option>
+      <option value="State of residence_Kano">Kano</option>
+      <option value="State of residence_Katsina">Katsina</option>
+      <option value="State of residence_Kebbi">Kebbi</option>
+      <option value="State of residence_Kogi">Kogi</option>
+      <option value="State of residence_Kwara">Kwara</option>
+      <option value="State of residence_Lagos">Lagos</option>
+      <option value="State of residence_Nasarawa">Nasarawa</option>
+      <option value="State of residence_Niger">Niger</option>
+      <option value="State of residence_Ogun">Ogun</option>
+      <option value="State of residence_Ondo">Ondo</option>
+      <option value="State of residence_Osun">Osun</option>
+      <option value="State of residence_Oyo">Oyo</option>
+      <option value="State of residence_Plateau">Plateau</option>
+      <option value="State of residence_Rivers">Rivers</option>
+      <option value="State of residence_Sokoto">Sokoto</option>
+      <option value="State of residence_Taraba">Taraba</option>
+      <option value="State of residence_Yobe">Yobe</option>
+      <option value="State of residence_Zamfara">Zamfara</option>
+    </select>
+
+    <label for="religion">Religion:</label>
+    <select id="religion" name="religion">
+      <option value="Religion_Islam">Islam</option>
+      <option value="Religion_Other">Other</option>
+      <option value="Religion_Other Christian">Other Christian</option>
+      <option value="Religion_Traditionalist">Traditionalist</option>
+    </select>
+
+    <label for="ethnicity">Ethnicity:</label>
+    <select id="ethnicity" name="ethnicity">
+      <option value="Ethnicity_Ekoi">Ekoi</option>
+      <option value="Ethnicity_Fulani">Fulani</option>
+      <option value="Ethnicity_Hausa">Hausa</option>
+      <option value="Ethnicity_Ibibio">Ibibio</option>
+      <option value="Ethnicity_Igala">Igala</option>
+      <option value="Ethnicity_Igbo">Igbo</option>
+      <option value="Ethnicity_Ijaw/Izon">Ijaw/Izon</option>
+      <option value="Ethnicity_Kanuri/Beriberi">Kanuri/Beriberi</option>
+      <option value="Ethnicity_Other">Other</option>
+      <option value="Ethnicity_Tiv">Tiv</option>
+      <option value="Ethnicity_Yoruba">Yoruba</option>
+    </select>
+<br><br>
+    <input type="submit" value="Predict">
+  </div>
+</body>
+</html>
